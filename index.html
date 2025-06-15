@@ -1,1 +1,46 @@
-
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>ProzentAlarm</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; max-width: 500px; margin: auto; }
+    input, button { width: 100%; padding: 10px; margin: 10px 0; font-size: 16px; }
+    .result { font-size: 20px; font-weight: bold; margin-top: 20px; }
+    .success { color: green; }
+    .warning { color: red; }
+  </style>
+</head>
+<body>
+  <h1>💰 ProzentAlarm (Online)</h1>
+  <label>Startwert (CHF):</label>
+  <input type="number" id="startwert" placeholder="z.B. 100">
+  <label>Ziel-Prozentsatz (%):</label>
+  <input type="number" id="ziel" placeholder="z.B. 10">
+  <label>Aktueller Wert (CHF):</label>
+  <input type="number" id="aktuell" placeholder="z.B. 110">
+  <button onclick="prüfen()">🔍 Prüfen</button>
+  <div id="ergebnis" class="result"></div>
+  <script>
+    function prüfen() {
+      const start = parseFloat(document.getElementById('startwert').value);
+      const ziel = parseFloat(document.getElementById('ziel').value);
+      const aktuell = parseFloat(document.getElementById('aktuell').value);
+      const ergebnis = document.getElementById('ergebnis');
+      if (isNaN(start) || isNaN(ziel) || isNaN(aktuell)) {
+        ergebnis.innerHTML = "❌ Bitte gültige Zahlen eingeben.";
+        ergebnis.className = "result warning";
+        return;
+      }
+      const zielwert = start * (1 + ziel / 100);
+      if (aktuell >= zielwert) {
+        ergebnis.innerHTML = `🎉 Ziel erreicht! (${aktuell.toFixed(2)} ≥ ${zielwert.toFixed(2)})`;
+        ergebnis.className = "result success";
+      } else {
+        ergebnis.innerHTML = `⏳ Noch nicht erreicht (${aktuell.toFixed(2)} < ${zielwert.toFixed(2)})`;
+        ergebnis.className = "result warning";
+      }
+    }
+  </script>
+</body>
+</html>
